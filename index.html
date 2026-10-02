@@ -1,0 +1,112 @@
+<style>
+  .truth-widget {
+    font-family: Arial, sans-serif;
+    max-width: 850px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    background-color: #f4f6f8;
+    text-align: center;
+  }
+  .stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #0b0f19;
+    border: 2px solid #334155;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  .truth-btn {
+    padding: 10px 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #fff;
+    border: 2px solid #cbd5e1;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .truth-btn:hover { background-color: #e2e8f0; }
+  .truth-btn.active { background-color: #7c3aed; color: white; border-color: #6d28d9; }
+  .description-box {
+    background: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    font-size: 1rem;
+    color: #1e293b;
+    text-align: left;
+    min-height: 80px;
+    line-height: 1.4;
+  }
+</style>
+
+<div class="truth-widget">
+  <h2>The Cinematic Truth Spectrum</h2>
+  <p>Explore how different film genres manipulate reality, performance, and audience perception.</p>
+  <div class="stage" id="truthStage"></div>
+  <div class="nav-grid">
+    <button class="truth-btn active" onclick="setTruthMode('doc')">1. Pure Documentary</button>
+    <button class="truth-btn" onclick="setTruthMode('mock')">2. Mockumentary / Satire</button>
+    <button class="truth-btn" onclick="setTruthMode('exp')">3. Experimental Art</button>
+  </div>
+  <div class="description-box" id="truthDesc">
+    <strong>Pure Documentary:</strong> Anchored in objective record-keeping. The camera acts as a fly on the wall, capturing real historical events or subjects without staging.
+  </div>
+</div>
+
+<script>
+  const truthStage = document.getElementById('truthStage');
+  const truthDesc = document.getElementById('truthDesc');
+  const truthButtons = document.querySelectorAll('.truth-widget .truth-btn');
+
+  const truthModes = {
+    doc: {
+      svg: `<svg width="450" height="250" viewBox="0 0 450 250">
+              <rect x="100" y="50" width="250" height="130" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+              <circle cx="225" cy="115" r="35" fill="none" stroke="#38bdf8" stroke-width="3" stroke-dasharray="8,4"/>
+              <text x="225" y="120" fill="#38bdf8" font-size="12" font-weight="bold" text-anchor="middle">OBJECTIVE RECORD</text>
+              <text x="225" y="210" fill="#94a3b8" font-size="11" text-anchor="middle">Unscripted reality, archival footage, observational truth</text>
+            </svg>`,
+      text: "<strong>Pure Documentary:</strong> Anchored in objective record-keeping. The camera acts as a fly on the wall, capturing real historical events or subjects without staging."
+    },
+    mock: {
+      svg: `<svg width="450" height="250" viewBox="0 0 450 250">
+              <rect x="100" y="50" width="250" height="130" rx="6" fill="#1e293b" stroke="#f43f5e" stroke-width="2"/>
+              <!-- Split mask graphic -->
+              <path d="M 195 80 L 195 150 M 255 80 L 255 150" stroke="#f43f5e" stroke-width="2"/>
+              <text x="225" y="120" fill="#f43f5e" font-size="12" font-weight="bold" text-anchor="middle">FICTION + REALITY</text>
+              <text x="225" y="210" fill="#fda4af" font-size="11" text-anchor="middle">Using documentary aesthetics to stage absurd, satirical truths</text>
+            </svg>`,
+      text: "<strong>Mockumentary & Satire:</strong> Adopts the formal visual language of factual reporting (interviews, hand-held cameras) to stage fictional characters and unscripted real-world reactions."
+    },
+    exp: {
+      svg: `<svg width="450" height="250" viewBox="0 0 450 250">
+              <rect x="100" y="50" width="250" height="130" rx="6" fill="#1e293b" stroke="#a855f7" stroke-width="2"/>
+              <path d="M 130 140 Q 180 70 225 115 T 320 90" fill="none" stroke="#a855f7" stroke-width="4"/>
+              <text x="225" y="120" fill="#a855f7" font-size="12" font-weight="bold" text-anchor="middle">PURE ABSTRACTION</text>
+              <text x="225" y="210" fill="#e9d5ff" font-size="11" text-anchor="middle">Visual poetry, non-narrative rhythm, defying standard conventions</text>
+            </svg>`,
+      text: "<strong>Experimental Art:</strong> Rejects traditional storytelling entirely. Prioritizes rhythm, emotional texture, and formal manipulation over narrative progression."
+    }
+  };
+
+  function setTruthMode(mode) {
+    truthButtons.forEach(b => b.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    truthStage.innerHTML = truthModes[mode].svg;
+    truthDesc.innerHTML = truthModes[mode].text;
+  }
+</script>
